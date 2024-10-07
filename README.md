@@ -37,14 +37,14 @@ The architecture consists of multiple microservices, each encapsulated in Docker
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/Vikas-Prince
+   git clone https://github.com/Vikas-Prince/MicroservicesAppDeployment
    cd MicroservicesAppDeployment
    ```
 
 2. **Configure Jenkins:**
 
    - Install the necessary plugins for Docker, Kubernetes, and Git.
-   - Set up a new multi-branch pipeline job pointing to your repository.
+   - Set up a new multi-branch pipeline job pointing to your repository make sure that you need to add all your credentials before start the pipeline.
 
 3. **Set Up AWS Credentials:**
 
@@ -55,11 +55,15 @@ The architecture consists of multiple microservices, each encapsulated in Docker
    - Follow AWS documentation to create and configure your EKS cluster.
 
 5. **Service Account for Jenkins:**
-   - Create a Kubernetes service account for Jenkins with the required permissions to deploy applications.
+   - Create a Kubernetes service account, role, and bind the role to grant Jenkins the required permissions to deploy applications. Generate a token to authenticate Jenkins with the EKS cluster.
 
 ## CI/CD Pipeline
 
 The project utilizes a multi-branch pipeline in Jenkins that automatically builds, tests, and deploys each microservice. Each branch corresponds to a microservice with its own Dockerfile.
+
+## Docker Configuration
+
+Each microservice has a `Dockerfile` defining how to build its image. Ensure that these are correctly configured to expose the necessary ports and include all dependencies.
 
 ### Workflow:
 
@@ -67,19 +71,6 @@ The project utilizes a multi-branch pipeline in Jenkins that automatically build
 2. Jenkins detects the change and triggers a build.
 3. Docker images are built and pushed to Docker Hub.
 4. The main Jenkinsfile in the main branch triggers deployments to the EKS cluster.
-
-## Deployment
-
-To deploy the application on the EKS cluster, navigate to the main branch in Jenkins and run the deployment pipeline. This uses the Jenkinsfile located in the main branch to handle deployment.
-
-### Deployment Steps:
-
-- Fetch the Docker image from Docker Hub.
-- Use `kubectl` to apply the Kubernetes deployment files.
-
-## Docker Configuration
-
-Each microservice has a `Dockerfile` defining how to build its image. Ensure that these are correctly configured to expose the necessary ports and include all dependencies.
 
 ## Jenkins Configuration
 
@@ -102,6 +93,15 @@ The Jenkins pipeline is defined in each microservice's `Jenkinsfile` as well as 
 kubectl create serviceaccount jenkins-sa
 kubectl apply -f jenkins-sa-role.yaml
 ```
+
+## Deployment
+
+To deploy the application on the EKS cluster, navigate to the main branch in Jenkins and run the deployment pipeline. This uses the Jenkinsfile located in the main branch to handle deployment.
+
+### Deployment Steps:
+
+- Fetch the Docker image from Docker Hub.
+- Use `kubectl` to apply the Kubernetes deployment files.
 
 ## Troubleshooting
 
