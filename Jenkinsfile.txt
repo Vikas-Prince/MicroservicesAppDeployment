@@ -1,0 +1,23 @@
+pipeline {
+    agent {
+        label 'slave'
+    }
+
+    stages {
+        stage('Deploy To Kubernetes manifest files') {
+            steps {
+                   withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'EKS', contextName: '', credentialsId: 'k8s-token', namespace: 'microservices', serverUrl: 'https://F6467B879789951611DB594F.gr7.ap-south-1.eks.amazonaws.com']]) {
+                    sh "kubectl apply -f deployment-service.yml"
+                    }
+            }
+        }
+        
+        stage('verify Deployments') {
+            steps {
+               withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'EKS', contextName: '', credentialsId: 'k8s-token', namespace: 'microservices', serverUrl: 'https://F6467B879789951611DB594F.gr7.ap-south-1.eks.amazonaws.com']]) {
+                         sh "kubectl get svc -n microservices"
+                }
+            }
+        }
+    }
+}
