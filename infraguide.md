@@ -97,7 +97,7 @@ eksctl create nodegroup --cluster=EKS \
 
 ### Create a service Account, Create a role and bind that role for Jenkins to integrate with EKS and Generate a token to authenticate
 
-1. **Create a Service Account for Jenkins**
+## 1. Create a Service Account for Jenkins
 
 ```bash
 apiVersion: v1
@@ -107,7 +107,7 @@ metadata:
     namespace: microservices
 ```
 
-2. **Create a Role**
+## 2. Create a Role
 
 - Define the role with specific permissions:
 
@@ -153,7 +153,7 @@ rules:
 
 ```
 
-3. **Bind the Role**
+## 3. Bind the Role
 
 - Bind the role to the service account:
 
@@ -173,7 +173,7 @@ subjects:
     name: jenkins
 ```
 
-4. **Generate Authentication Token**
+## 4. Generate Authentication Token
 
 - Create a secret for the Jenkins service account:
 
