@@ -31,6 +31,9 @@ You will also need:
 ## Architecture
 
 The architecture consists of multiple microservices, each encapsulated in Docker containers, managed by Kubernetes on EKS. Jenkins orchestrates the CI/CD processes, enabling automated builds and deployments.
+img
+
+![Architecture](snapshots/architecture.png)
 
 ## Setup Instructions
 
