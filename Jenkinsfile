@@ -15,8 +15,18 @@ pipeline {
         stage('Verify Deployments') {
             steps {
                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'csi-aks-microservices', contextName: '', credentialsId: 'k8s-token', namespace: 'microservices', serverUrl: 'https://csi-aks-microservices-dns-x9c1s2k4.hcp.centralindia.azmk8s.io']]) {
+                   sh "kubectl get pods -n microservices "
                 }
             }
         }
+
+        stage('Verify Deployments') {
+            steps {
+               withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'csi-aks-microservices', contextName: '', credentialsId: 'k8s-token', namespace: 'microservices', serverUrl: 'https://csi-aks-microservices-dns-x9c1s2k4.hcp.centralindia.azmk8s.io']]) {
+                   sh "kubectl get svc -n microservices "
+                }
+            }
+        }
+
     }
 }
